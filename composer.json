@@ -1,0 +1,27 @@
+{
+    "name": "bender/bender",
+    "license": "",
+    "description": "Create enitities on the fly.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Panos Dalitsouris",
+            "email": "hello@panos.codes"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bender\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mocks\\":"tests/Mocks"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^8.3",
+        "symfony/orm-pack": "^1.0"
+    }
+}
