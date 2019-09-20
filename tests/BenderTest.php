@@ -14,7 +14,7 @@ class BenderTest extends TestCase
     {
         $properties = [
             'user' => new Entity(),
-            'email' => 'hello@panos.codes',
+            'email' => 'hello@bender.local',
         ];
 
         Bender::registerFactory(Factory::create(SampleEntity::class, $properties));
@@ -29,7 +29,7 @@ class BenderTest extends TestCase
     {
         $properties = [
             'user' => new Entity(),
-            'email' => 'hello@panos.codes',
+            'email' => 'hello@bender.local',
         ];
 
         Bender::registerFactory(Factory::create(SampleEntity::class, $properties));
