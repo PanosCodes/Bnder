@@ -4,79 +4,105 @@ namespace Bender;
 
 use Exception;
 use ReflectionClass;
+use RuntimeException;
 
 class Bender
 {
-    const EXCEPTION_MESSAGE_CAN_NOT_CREATE_ZERO_INSTANCES = 'Can not create zero instances';
+    /**
+     * Exception Message
+     */
+    private const EXCEPTION_MESSAGE_CAN_NOT_CREATE_ZERO_INSTANCES = 'Can not create zero instances';
+    private const EXCEPTION_MESSAGE_FACTORY_IS_NOT_REGISTERED = 'Factory is not registered.';
+
+    /**
+     * @var Factory[]
+     */
+    private static $factories = [];
+
     /**
      * @var string
      */
-    protected $factory;
+    protected $class;
 
     /**
-     * @param string $factory
+     * @param string $class
      */
-    public function __construct(string $factory)
+    private function __construct(string $class)
     {
-       $this->factory = $factory;
+        $this->class = $class;
     }
 
     /**
-     * @param string $factory
+     * @param string $class
      *
      * @return Bender
+     * @throws Exception
      */
-    public static function load(string $factory): Bender
+    public static function load(string $class): Bender
     {
-        return new self($factory);
+        if (array_key_exists($class, self::$factories)) {
+            return new self($class);
+        }
+
+        throw new RuntimeException(self::EXCEPTION_MESSAGE_FACTORY_IS_NOT_REGISTERED);
     }
 
     /**
-     * @param int   $numberOfInstances
-     * @param array $properties
+     * @param Factory $factory
+     *
+     * @return array
+     */
+    public static function registerFactory(Factory $factory): array
+    {
+        self::$factories[$factory->getClass()] = $factory;
+
+        return self::$factories;
+    }
+
+    /**
+     * @param int $numberOfInstances
      *
      * @return array | mixed
      * @throws Exception
      */
-    public function create($properties = [], $numberOfInstances = 1)
+    public function create(int $numberOfInstances = 1)
     {
         if ($numberOfInstances === 0) {
-            throw new \RuntimeException(self::EXCEPTION_MESSAGE_CAN_NOT_CREATE_ZERO_INSTANCES);
+            throw new RuntimeException(self::EXCEPTION_MESSAGE_CAN_NOT_CREATE_ZERO_INSTANCES);
         }
 
         $instances = [];
 
         for ($i = 0; $i < $numberOfInstances; $i++) {
-            $instance = $this->createInstance($properties);
+            $instance = $this->createInstance(self::$factories[$this->class]);
             $instances[] = $instance;
         }
 
         if (count($instances) === 1) {
-            return reset($instances);
+            return $instances[0];
         }
 
         return $instances;
     }
 
-
     /** @noinspection PhpDocMissingThrowsInspection
      *
-     * @param array $properties
+     * @param Factory $factory
      *
      * @return mixed
      */
-    private function createInstance(array $properties)
+    private function createInstance(Factory $factory)
     {
-        $instance = new $this->factory;
+        $instance = new $this->class;
 
-        if (count($properties) === 0) {
+        if (count($factory->getProperties()) === 0) {
             return $instance;
         }
 
         /** @noinspection PhpUnhandledExceptionInspection */
         $reflection = new ReflectionClass($instance);
 
-        foreach ($properties as $propertyName => $propertyValue) {
+        foreach ($factory->getProperties() as $propertyName => $propertyValue) {
             if ($reflection->hasProperty($propertyName)) {
                 /** @noinspection PhpUnhandledExceptionInspection */
                 $property = $reflection->getProperty($propertyName);
