@@ -1,7 +1,7 @@
 {
     "name": "bender/bender",
     "license": "",
-    "description": "Create enitities on the fly.",
+    "description": "Create entities on the fly.",
     "type": "library",
     "authors": [
         {
