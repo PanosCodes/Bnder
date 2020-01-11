@@ -4,6 +4,7 @@ namespace Bender;
 
 use Exception;
 use ReflectionClass;
+use ReflectionException;
 use RuntimeException;
 
 class Bender
@@ -85,11 +86,12 @@ class Bender
         return $instances;
     }
 
-    /** @noinspection PhpDocMissingThrowsInspection
-     *
+    /**
      * @param Factory $factory
      *
      * @return mixed
+     *
+     * @throws ReflectionException
      */
     private function createInstance(Factory $factory)
     {
@@ -99,12 +101,10 @@ class Bender
             return $instance;
         }
 
-        /** @noinspection PhpUnhandledExceptionInspection */
         $reflection = new ReflectionClass($instance);
 
         foreach ($factory->getProperties() as $propertyName => $propertyValue) {
             if ($reflection->hasProperty($propertyName)) {
-                /** @noinspection PhpUnhandledExceptionInspection */
                 $property = $reflection->getProperty($propertyName);
                 $property->setAccessible(true);
                 $property->setValue($instance, $propertyValue);
