@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
 {
-    public function testFactoryCreate()
+    public function testFactoryCreate(): void
     {
         $properties = ['email' => 'sample@email.local'];
         $factory = Factory::create(SampleEntity::class, $properties);
