@@ -6,9 +6,8 @@ use Bender\Bender;
 use Bender\Factory;
 use Doctrine\ORM\Mapping\Entity;
 use Mocks\SampleEntity;
-use PHPUnit\Framework\TestCase;
 
-class BenderTest extends TestCase
+class BenderTest extends BaseTestCase
 {
     public function testCreateFunction(): void
     {
@@ -46,5 +45,21 @@ class BenderTest extends TestCase
         $factories = Bender::registerFactory($factory);
 
         $this->assertCount(1, $factories);
+    }
+
+    /**
+     * @group Database
+     */
+    public function testProducedFactoryCanBeSavedInDatabase(): void
+    {
+        Bender::registerFactory(Factory::create(SampleEntity::class, ['name' => 'user name']));
+
+        /** @var SampleEntity $createdFactory */
+        $createdFactory = Bender::load(SampleEntity::class)->create();
+
+        $this->entityManager->persist($createdFactory);
+        $this->entityManager->flush();
+
+        $this->assertIsInt($createdFactory->getId());
     }
 }
