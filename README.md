@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/PanosCodes/Bender.svg?branch=master)](https://travis-ci.org/PanosCodes/Bender)
 
-### Bender
+### 🤖 Bender
 ___
 
 Bender is inspired by the Laravel factories, it is meant to be a quick and clean way
