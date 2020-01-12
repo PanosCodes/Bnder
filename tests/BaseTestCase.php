@@ -24,23 +24,14 @@ abstract class BaseTestCase extends TestCase
     public function setUp(): void
     {
         if (in_array(self::TEST_GROUP_DATABASE, $this->getGroups(), true)) {
-            $connectionParams = ['url' => 'sqlite:///:memory:'];
-            $connection = DriverManager::getConnection($connectionParams);
-            $entityManager = EntityManager::create(
-                $connection,
-                Setup::createAnnotationMetadataConfiguration(['../Mocks/'])
-            );
-            $this->entityManager = $entityManager;
-            $this->entityManager->beginTransaction();
-            $this->createTables();
+            $this->setUpForDatabaseTest();
         }
     }
 
     public function tearDown(): void
     {
         if (in_array(self::TEST_GROUP_DATABASE, $this->getGroups(), true)) {
-            $this->dropTables();
-            $this->entityManager->rollback();
+            $this->tearDownForDatabaseTest();
         }
     }
 
@@ -54,5 +45,24 @@ abstract class BaseTestCase extends TestCase
     {
         $schemaTool = new SchemaTool($this->entityManager);
         $schemaTool->dropSchema([$this->entityManager->getClassMetadata(SampleEntity::class)]);
+    }
+
+    private function setUpForDatabaseTest(): void
+    {
+        $connectionParams = ['url' => 'sqlite:///:memory:'];
+        $connection = DriverManager::getConnection($connectionParams);
+        $entityManager = EntityManager::create(
+            $connection,
+            Setup::createAnnotationMetadataConfiguration(['../Mocks/'])
+        );
+        $this->entityManager = $entityManager;
+        $this->entityManager->beginTransaction();
+        $this->createTables();
+    }
+
+    private function tearDownForDatabaseTest(): void
+    {
+        $this->dropTables();
+        $this->entityManager->rollback();
     }
 }
