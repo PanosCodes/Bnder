@@ -1,13 +1,13 @@
 <?php
 
-namespace Bender;
+namespace Bnder;
 
 use Exception;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
 
-class Bender
+class Bnder
 {
     /**
      * Exception Message
@@ -36,10 +36,10 @@ class Bender
     /**
      * @param string $class
      *
-     * @return Bender
+     * @return Bnder
      * @throws Exception
      */
-    public static function load(string $class): Bender
+    public static function load(string $class): Bnder
     {
         if (array_key_exists($class, self::$factories)) {
             return new self($class);

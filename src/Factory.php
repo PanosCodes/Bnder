@@ -1,6 +1,6 @@
 <?php
 
-namespace Bender;
+namespace Bnder;
 
 class Factory
 {

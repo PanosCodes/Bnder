@@ -1,8 +1,8 @@
 {
-    "name": "bender/bender",
+    "name": "bnder/bnder",
     "license": "MIT",
     "description": "Create entities on the fly.",
-    "keywords": ["bender", "testing"],
+    "keywords": ["Bnder", "testing"],
     "authors": [
         {
             "name": "Panos Dalitsouris",
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Bender\\": "src/"
+            "Bnder\\": "src/"
         }
     },
     "autoload-dev": {

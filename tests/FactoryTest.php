@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Bender\Factory;
+use Bnder\Factory;
 use Mocks\SampleEntity;
 use PHPUnit\Framework\TestCase;
 

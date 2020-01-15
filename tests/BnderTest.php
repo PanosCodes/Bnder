@@ -2,24 +2,24 @@
 
 namespace Tests;
 
-use Bender\Bender;
-use Bender\Factory;
+use Bnder\Bnder;
+use Bnder\Factory;
 use Doctrine\ORM\Mapping\Entity;
 use Mocks\SampleEntity;
 
-class BenderTest extends BaseTestCase
+class BnderTest extends BaseTestCase
 {
     public function testCreateFunction(): void
     {
         $properties = [
             'user' => new Entity(),
-            'email' => 'hello@bender.local',
+            'email' => 'hello@Bnder.local',
         ];
 
-        Bender::registerFactory(Factory::create(SampleEntity::class, $properties));
+        Bnder::registerFactory(Factory::create(SampleEntity::class, $properties));
 
         // Exercise
-        $sampleEntity = Bender::load(SampleEntity::class)->create();
+        $sampleEntity = Bnder::load(SampleEntity::class)->create();
 
         $this->assertInstanceOf(Entity::class, $sampleEntity->getUser());
     }
@@ -28,11 +28,11 @@ class BenderTest extends BaseTestCase
     {
         $properties = [
             'user' => new Entity(),
-            'email' => 'hello@bender.local',
+            'email' => 'hello@Bnder.local',
         ];
 
-        Bender::registerFactory(Factory::create(SampleEntity::class, $properties));
-        $entities = Bender::load(SampleEntity::class)->create(10);
+        Bnder::registerFactory(Factory::create(SampleEntity::class, $properties));
+        $entities = Bnder::load(SampleEntity::class)->create(10);
 
         $this->assertIsArray($entities);
         $this->assertCount(10, $entities);
@@ -42,7 +42,7 @@ class BenderTest extends BaseTestCase
     public function testRegisterFactoryMethod(): void
     {
         $factory = Factory::create(SampleEntity::class);
-        $factories = Bender::registerFactory($factory);
+        $factories = Bnder::registerFactory($factory);
 
         $this->assertCount(1, $factories);
     }
@@ -52,10 +52,10 @@ class BenderTest extends BaseTestCase
      */
     public function testProducedFactoryCanBeSavedInDatabase(): void
     {
-        Bender::registerFactory(Factory::create(SampleEntity::class, ['name' => 'user name']));
+        Bnder::registerFactory(Factory::create(SampleEntity::class, ['name' => 'user name']));
 
         /** @var SampleEntity $createdFactory */
-        $createdFactory = Bender::load(SampleEntity::class)->create();
+        $createdFactory = Bnder::load(SampleEntity::class)->create();
 
         $this->entityManager->persist($createdFactory);
         $this->entityManager->flush();
