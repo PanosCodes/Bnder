@@ -25,5 +25,5 @@
         "phpunit/phpunit": "^8.3",
         "symfony/orm-pack": "^1.0"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "stable"
 }
