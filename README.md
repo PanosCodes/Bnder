@@ -7,7 +7,12 @@ Bnder is inspired by the Laravel factories, it is meant to be a quick and clean 
 to create and persist and your Doctrine entities. It relies heavily on reflection class
 providing a fluid api.
 
+#### Installation
+
+```composer require bnder/bnder```
+
 #### Example
+
 ```php
 $properties = [
     'user' => new Entity(),
