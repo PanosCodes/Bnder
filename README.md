@@ -10,14 +10,14 @@ providing a fluid api.
 #### Example
 ```php
 $properties = [
-    'user' => new Entity(),
+    'user' => new User(),
     'email' => 'sample@mail.local',
 ];
 
-Bnder::registerFactory(Factory::create(SampleEntity::class, $properties))
+Bnder::registerFactory(Factory::create(SampleEntity::class, $properties));
 
 // This will create an array of 3 
-$entities = Bnder::load(YouFactory::class)->create(['email' => 'demo@mail.local'], 3);
+$entities = Bnder::load(SampleEntity::class)->create(['email' => 'demo@mail.local'], 3);
 
 ```
 
